@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { Block } from "../models/blocks";
+import { Space } from "../models/spaces";
+import { getEmptySpaceListAll } from "../utils/utils";
+
 interface GameState {
-  board: [][];
-  nextQueue: [];
+  board: Space[][];
+  nextQueue: Block[];
 }
 
 const initialState: GameState = {
-  board: [[]],
+  board: getEmptySpaceListAll(),
   nextQueue: [],
 };
 
