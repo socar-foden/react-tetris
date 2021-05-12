@@ -1,7 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import gameSlice from "./gameSlice";
-import infoSlice from "./infoSlice";
+import gameSlice, { GameState } from "./gameSlice";
+import infoSlice, { InfoState } from "./infoSlice";
+
+export interface RootState {
+  info: InfoState;
+  game: GameState;
+}
 
 const rootStore = configureStore({
   reducer: {

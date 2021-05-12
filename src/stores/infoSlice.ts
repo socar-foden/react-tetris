@@ -5,7 +5,7 @@ const enum Progress {
   START,
 }
 
-interface InfoState {
+export interface InfoState {
   score: number;
   progress: Progress;
 }

@@ -12,6 +12,14 @@ export class Block {
   protected _type: BlockType;
   _position: number[][];
   protected _color: string;
+
+  get type(): BlockType {
+    return this._type;
+  }
+
+  get color(): string {
+    return this._color;
+  }
 }
 
 export class Block_I extends Block {

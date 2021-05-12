@@ -1,7 +1,14 @@
 import React from "react";
 
+import Panel from "../Panel/Panel";
+import S from "./App.style";
+
 const App: React.FC = () => {
-  return <div>App</div>;
+  return (
+    <S.Main>
+      <Panel />
+    </S.Main>
+  );
 };
 
 export default App;

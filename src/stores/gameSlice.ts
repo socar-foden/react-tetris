@@ -4,7 +4,7 @@ import { Block } from "../models/blocks";
 import { Space } from "../models/spaces";
 import { getEmptySpaceListAll } from "../utils/utils";
 
-interface GameState {
+export interface GameState {
   board: Space[][];
   nextQueue: Block[];
 }
