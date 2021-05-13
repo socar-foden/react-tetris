@@ -9,8 +9,6 @@ import useKeyboard from "../../hooks/useKeyboard";
 import {
   getRandomBlock,
   getBoard,
-  isTouchingBlock,
-  isTouchingBoundary,
   getValidateInfoNextFrame,
 } from "../../utils/utils";
 import useRAF from "../../hooks/useRAF";
@@ -47,7 +45,7 @@ const App: React.FC = () => {
   const next: any = _.curry(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (frame: number, time: number): void => {
-      if (++frame % 1 === 0) {
+      if (++frame % 90 === 0) {
         setLocation((prev) => ({
           ...prev,
           d_1: prev.d_1 + 1,
