@@ -17,7 +17,13 @@ const initialState: GameState = {
 const gameSlice = createSlice({
   name: "game",
   initialState,
-  reducers: {},
+  reducers: {
+    set_board: (state, { payload: { board } }) => {
+      state.board = board;
+    },
+  },
 });
+
+export const { set_board } = gameSlice.actions;
 
 export default gameSlice;
