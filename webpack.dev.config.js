@@ -10,7 +10,7 @@ module.exports = {
     port: 9000,
     hot: true,
   },
-  devtool: "eval",
+  devtool: "source-map",
   plugins: [new HtmlWebpackPlugin({ template: "./public/index.html" })],
   module: {
     rules: [
