@@ -14,6 +14,10 @@ const rootStore = configureStore({
     game: gameSlice.reducer,
   },
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default rootStore;

@@ -1,18 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const enum Progress {
-  END,
-  START,
-}
-
 export interface InfoState {
   score: number;
-  progress: Progress;
 }
 
 const initialState: InfoState = {
   score: 0,
-  progress: Progress.END,
 };
 
 const infoSlice = createSlice({
@@ -21,9 +14,6 @@ const infoSlice = createSlice({
   reducers: {
     increment_score: (state, { payload: { score } }) => {
       state.score += score;
-    },
-    set_progress: (state, { payload: { progress } }) => {
-      state.progress = progress;
     },
   },
 });

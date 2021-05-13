@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { Block } from "../models/blocks";
 import { Space } from "../models/spaces";
-import { getEmptySpaceListAll } from "../utils/utils";
+import { getEmptyBoard, getBoard } from "../utils/utils";
 
 export interface GameState {
   board: Space[][];
@@ -10,7 +10,7 @@ export interface GameState {
 }
 
 const initialState: GameState = {
-  board: getEmptySpaceListAll(),
+  board: getEmptyBoard(),
   nextQueue: [],
 };
 
@@ -18,8 +18,8 @@ const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    set_board: (state, { payload: { board } }) => {
-      state.board = board;
+    set_board: (state: GameState, { payload: { location, block } }) => {
+      state.board = getBoard(location, block, state.board);
     },
   },
 });

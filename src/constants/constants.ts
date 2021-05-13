@@ -10,3 +10,8 @@ export const enum KeyboardKey {
   arrowRight = "ArrowRight",
   spaceBar = " ",
 }
+
+export interface Location {
+  d_1: number;
+  d_2: number;
+}

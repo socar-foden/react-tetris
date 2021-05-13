@@ -1,15 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import _ from "lodash";
 
-import { GameState } from "../../stores/gameSlice";
-import { RootState } from "../../stores/rootStore";
+import { Space } from "../../models/spaces";
 import Cell from "../Cell/Cell";
 import S from "./Panel.style";
 
-const Panel: React.FC = () => {
-  const { board }: GameState = useSelector((state: RootState) => state.game);
+interface PanelProps {
+  board: Space[][];
+}
 
+const Panel: React.FC<PanelProps> = ({ board }) => {
   return (
     <S.Panel>
       {_.map(board, (rows, r) => (
