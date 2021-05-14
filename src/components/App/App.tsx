@@ -11,7 +11,12 @@ import {
 import { RootState } from "../../stores/rootStore";
 import { Space } from "../../models/spaces";
 import useKeyboard from "../../hooks/useKeyboard";
-import { getRandomBlock, getBoard, getNextFrameInfo } from "../../utils/utils";
+import {
+  getRandomBlock,
+  getBoard,
+  getNextFrameInfo,
+  getRotatedBlock,
+} from "../../utils/utils";
 import useRAF from "../../hooks/useRAF";
 import { Block } from "../../models/blocks";
 import { GameState, set_board } from "../../stores/gameSlice";
@@ -46,16 +51,27 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (_.find(actionKeyList, fp.isEqual(action[0]))) {
+      const rotatedBlock = getRotatedBlock(block);
+
       const [touchingBoundary, touchingBlock, nextLocation] = getNextFrameInfo(
         action[0],
         location,
-        block._position,
+        action[0] === KeyboardKey.arrowUp
+          ? rotatedBlock._position
+          : block._position,
         board
       );
 
       if (!touchingBoundary && !touchingBlock) {
-        setTempBoard(getBoard(nextLocation, block, board));
-        setLocation(nextLocation);
+        if (action[0] === KeyboardKey.arrowUp) {
+          setBlock(() => {
+            setTempBoard(getBoard(location, rotatedBlock, board));
+            return rotatedBlock;
+          });
+        } else {
+          setTempBoard(getBoard(nextLocation, block, board));
+          setLocation(nextLocation);
+        }
       } else {
         if (action[0] === KeyboardKey.arrowDown) {
           dispatch({

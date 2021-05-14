@@ -168,12 +168,12 @@ const isRightOfPosition = (
  * 각 포지션(블럭)별 가능한 최저 위치를 반환
  * @param location
  * @param position
- * @param spaceList
+ * @param board
  */
 const getEnableBottomLocation = (
   { d_1, d_2 }: Location,
   position: number[][],
-  spaceList: Space[][]
+  board: Space[][]
 ): Location => {
   let next_d_1 = d_1;
 
@@ -190,7 +190,7 @@ const getEnableBottomLocation = (
       KeyboardKey.arrowDown,
       { d_1: next_d_1, d_2 },
       position,
-      spaceList
+      board
     );
 
     next_d_1++;
@@ -231,6 +231,24 @@ export const getNextLocation = (
   }[key]);
 
 /**
+ * 특정 블럭이 기존 영역의 블럭과 겹치는지 확인
+ * @param location
+ * @param position
+ * @param board
+ * @returns
+ */
+export const overlapSomePosition = (
+  { d_1, d_2 }: Location,
+  position: number[][],
+  board: Space[][]
+): boolean => {
+  const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, position);
+  return _.some(range_d_1, (d1) =>
+    _.some(range_d_2, (d2) => isBlockSpace(board[d1][d2]))
+  );
+};
+
+/**
  * 해당 블럭이, 특정 방향으로 다른 블럭에 닿아있는지 파악
  * @param key
  * @param location
@@ -246,6 +264,7 @@ export const isTouchingBlock = (
 ): boolean => {
   const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, position);
   const judgeMap = {
+    [KeyboardKey.arrowUp as KeyboardKey]: overlapSomePosition,
     [KeyboardKey.arrowDown as KeyboardKey]: isBottomOfPosition,
     [KeyboardKey.arrowLeft as KeyboardKey]: isLeftOfPosition,
     [KeyboardKey.arrowRight as KeyboardKey]: isRightOfPosition,
@@ -255,7 +274,7 @@ export const isTouchingBlock = (
     _.some(
       range_d_2,
       (d2, j) =>
-        judgeMap[key]({ d_1: i, d_2: j }, position) &&
+        judgeMap[key]({ d_1: i, d_2: j }, position, board) &&
         isBlockSpace(
           _.get(
             board,
@@ -317,4 +336,26 @@ export const getNextFrameInfo = (
     isTouchingBlock(key, nextLocation, position, board),
     nextLocation,
   ];
+};
+
+/**
+ * 회전된 블럭을 반환
+ * @param block
+ * @returns
+ */
+export const getRotatedBlock = (block: Block): Block => {
+  const rotated: Block = _.cloneDeep(block);
+  const { _position } = rotated;
+  const rotatedPosition: number[][] = [];
+
+  _.forEach(_position[0], (row, i) => {
+    const inner: number[] = [];
+    _.forEach(_position, (space, j) => {
+      inner.push(_position[j][i]);
+    });
+    rotatedPosition.unshift(inner);
+  });
+
+  rotated._position = rotatedPosition;
+  return rotated;
 };
