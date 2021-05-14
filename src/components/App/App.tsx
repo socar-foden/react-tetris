@@ -52,7 +52,6 @@ const App: React.FC = () => {
   useEffect(() => {
     if (_.find(actionKeyList, fp.isEqual(action[0]))) {
       const rotatedBlock = getRotatedBlock(block);
-
       const [touchingBoundary, touchingBlock, nextLocation] = getNextFrameInfo(
         action[0],
         location,

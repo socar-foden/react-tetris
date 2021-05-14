@@ -276,12 +276,9 @@ export const isTouchingBlock = (
       (d2, j) =>
         judgeMap[key]({ d_1: i, d_2: j }, position, board) &&
         isBlockSpace(
-          _.get(
-            board,
-            _.values(
-              getNextLocation(key, { d_1: d1, d_2: d2 }, position, board)
-            )
-          )
+          key === KeyboardKey.arrowDown
+            ? _.get(board, [d1 + 1, d2])
+            : _.get(board, [d1, d2])
         )
     )
   );
