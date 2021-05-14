@@ -176,7 +176,6 @@ const getEnableBottomLocation = (
   board: Space[][]
 ): Location => {
   let next_d_1 = d_1;
-
   let touchingBoundary = false;
   let touchingBlock = false;
 
@@ -227,7 +226,11 @@ export const getNextLocation = (
       d_1,
       d_2: d_2 + 1,
     },
-    // " ": getEnableBottomLocation({ d_1, d_2 }, position, board),
+    [KeyboardKey.spaceBar]: getEnableBottomLocation(
+      { d_1, d_2 },
+      position,
+      board
+    ),
   }[key]);
 
 /**
@@ -268,6 +271,8 @@ export const isTouchingBlock = (
     [KeyboardKey.arrowDown as KeyboardKey]: isBottomOfPosition,
     [KeyboardKey.arrowLeft as KeyboardKey]: isLeftOfPosition,
     [KeyboardKey.arrowRight as KeyboardKey]: isRightOfPosition,
+    // TODO: 아래고쳐야함
+    [KeyboardKey.spaceBar as KeyboardKey]: isBottomOfPosition,
   };
 
   return _.some(range_d_1, (d1, i) =>
@@ -298,13 +303,13 @@ export const isTouchingBoundary = (
 ): boolean =>
   ({
     [KeyboardKey.arrowUp]:
-      d_1 + position.length >= BOARD_HEIGHT_CNT ||
+      d_1 + position.length > BOARD_HEIGHT_CNT ||
       d_2 < 0 ||
       d_2 + position[0].length > BOARD_WIDTH_CNT,
-    [KeyboardKey.arrowDown]: d_1 + position.length >= BOARD_HEIGHT_CNT,
+    [KeyboardKey.arrowDown]: d_1 + position.length > BOARD_HEIGHT_CNT,
     [KeyboardKey.arrowLeft]: d_2 < 0,
     [KeyboardKey.arrowRight]: d_2 + position[0].length > BOARD_WIDTH_CNT,
-    [KeyboardKey.spaceBar]: true,
+    [KeyboardKey.spaceBar]: d_1 + position.length > BOARD_HEIGHT_CNT,
   }[key]);
 
 /**
