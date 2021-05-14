@@ -39,7 +39,7 @@ const App: React.FC = () => {
   const handleKeyDown = (e: KeyboardEvent) => setAction([e.key as KeyboardKey]);
 
   const next: any = _.curry((frame: number, time: number): void => {
-    if (++frame % 90 === 0) {
+    if (frame++ % 90 === 0) {
       setAction([KeyboardKey.arrowDown]);
     }
 
@@ -67,6 +67,11 @@ const App: React.FC = () => {
         } else {
           setTempBoard(getBoard(nextLocation, block, board));
           setLocation(nextLocation);
+
+          if (action[0] === KeyboardKey.spaceBar) {
+            cancelAnimationFrame(rAFId);
+            rAFId = requestAnimationFrame(next(0));
+          }
         }
       } else {
         if (action[0] === KeyboardKey.arrowDown) {
