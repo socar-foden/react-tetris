@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
@@ -37,17 +38,13 @@ const App: React.FC = () => {
 
   const handleKeyDown = (e: KeyboardEvent) => setAction([e.key as KeyboardKey]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const next: any = _.curry(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (frame: number, time: number): void => {
-      if (++frame % 90 === 0) {
-        setAction([KeyboardKey.arrowDown]);
-      }
-
-      rAFId = requestAnimationFrame(next(frame));
+  const next: any = _.curry((frame: number, time: number): void => {
+    if (++frame % 90 === 0) {
+      setAction([KeyboardKey.arrowDown]);
     }
-  );
+
+    rAFId = requestAnimationFrame(next(frame));
+  });
 
   useEffect(() => {
     if (_.find(actionKeyList, fp.isEqual(action[0]))) {
@@ -73,14 +70,18 @@ const App: React.FC = () => {
         }
       } else {
         if (action[0] === KeyboardKey.arrowDown) {
+          setTempBoard(getBoard(location, block, board));
+
           dispatch({
             type: set_board,
-            payload: { location: location, block },
+            payload: { location, block },
           });
 
           const nextBlock: Block = getRandomBlock();
           setBlock(nextBlock);
-          setTempBoard(getBoard(startLocation, nextBlock, board));
+          setTempBoard(
+            getBoard(startLocation, nextBlock, getBoard(location, block, board))
+          );
           setLocation(startLocation);
         }
       }
