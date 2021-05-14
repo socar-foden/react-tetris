@@ -115,6 +115,122 @@ const isBottomOfPosition = (
 };
 
 /**
+ * 각 블럭의 최좌측에 위치한 조각인지 파악
+ * @param location
+ * @param position
+ * @returns
+ */
+const isLeftOfPosition = (
+  { d_1, d_2 }: Location,
+  position: number[][]
+): boolean => {
+  const isBlock = position[d_1][d_2] === 1;
+  let isLeft = true;
+  let cnt = 1;
+
+  while (d_2 - cnt >= 0) {
+    if (position[d_1][d_2 - cnt] === 1) {
+      isLeft = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isLeft;
+};
+
+/**
+ * 각 블럭의 최우측에 위치한 조각인지 파악
+ * @param location
+ * @param position
+ * @returns
+ */
+const isRightOfPosition = (
+  { d_1, d_2 }: Location,
+  position: number[][]
+): boolean => {
+  const isBlock = position[d_1][d_2] === 1;
+  let isRight = true;
+  let cnt = 1;
+
+  while (d_2 + cnt < position[0].length) {
+    if (position[d_1][d_2 + cnt] === 1) {
+      isRight = false;
+      break;
+    }
+    cnt++;
+  }
+
+  return isBlock && isRight;
+};
+
+/**
+ * 각 포지션(블럭)별 가능한 최저 위치를 반환
+ * @param location
+ * @param position
+ * @param spaceList
+ */
+const getEnableBottomLocation = (
+  { d_1, d_2 }: Location,
+  position: number[][],
+  spaceList: Space[][]
+): Location => {
+  let next_d_1 = d_1;
+
+  let touchingBoundary = false;
+  let touchingBlock = false;
+
+  while (!touchingBoundary && !touchingBlock) {
+    touchingBoundary = isTouchingBoundary(
+      KeyboardKey.arrowDown,
+      { d_1: next_d_1, d_2 },
+      position
+    );
+    touchingBlock = isTouchingBlock(
+      KeyboardKey.arrowDown,
+      { d_1: next_d_1, d_2 },
+      position,
+      spaceList
+    );
+
+    next_d_1++;
+  }
+
+  return { d_1: Math.max(next_d_1 - 2, d_1), d_2 };
+};
+
+/**
+ * 키보드의 각 key별, 다음 시점의 블럭을 그리는 기준이 될 location을 반환
+ * @param key
+ * @param location
+ * @param position
+ * @param board
+ * @returns
+ */
+export const getNextLocation = (
+  key: string,
+  { d_1, d_2 }: Location,
+  position: number[][],
+  board: Space[][]
+): Location =>
+  ({
+    [KeyboardKey.arrowUp]: { d_1, d_2 },
+    [KeyboardKey.arrowDown]: {
+      d_1: d_1 + 1,
+      d_2,
+    },
+    [KeyboardKey.arrowLeft]: {
+      d_1,
+      d_2: d_2 - 1,
+    },
+    [KeyboardKey.arrowRight]: {
+      d_1,
+      d_2: d_2 + 1,
+    },
+    // " ": getEnableBottomLocation({ d_1, d_2 }, position, board),
+  }[key]);
+
+/**
  * 해당 블럭이, 특정 방향으로 다른 블럭에 닿아있는지 파악
  * @param key
  * @param location
@@ -129,18 +245,25 @@ export const isTouchingBlock = (
   board: Space[][]
 ): boolean => {
   const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, position);
-  const judgePositionMap = {
+  const judgeMap = {
     [KeyboardKey.arrowDown as KeyboardKey]: isBottomOfPosition,
-    // [Direction.Left]: isLeftOfPosition,
-    // [Direction.Right]: isRightOfPosition,
+    [KeyboardKey.arrowLeft as KeyboardKey]: isLeftOfPosition,
+    [KeyboardKey.arrowRight as KeyboardKey]: isRightOfPosition,
   };
 
   return _.some(range_d_1, (d1, i) =>
     _.some(
       range_d_2,
       (d2, j) =>
-        judgePositionMap[key]({ d_1: i, d_2: j }, position) &&
-        isBlockSpace(_.get(board, [d1 + 1, d2]))
+        judgeMap[key]({ d_1: i, d_2: j }, position) &&
+        isBlockSpace(
+          _.get(
+            board,
+            _.values(
+              getNextLocation(key, { d_1: d1, d_2: d2 }, position, board)
+            )
+          )
+        )
     )
   );
 };
@@ -160,11 +283,11 @@ export const isTouchingBoundary = (
   ({
     [KeyboardKey.arrowUp]:
       d_1 + position.length >= BOARD_HEIGHT_CNT ||
-      d_2 <= 0 ||
-      d_2 + position[0].length >= BOARD_WIDTH_CNT,
+      d_2 < 0 ||
+      d_2 + position[0].length > BOARD_WIDTH_CNT,
     [KeyboardKey.arrowDown]: d_1 + position.length >= BOARD_HEIGHT_CNT,
-    [KeyboardKey.arrowLeft]: d_2 <= 0,
-    [KeyboardKey.arrowRight]: d_2 + position[0].length >= BOARD_WIDTH_CNT,
+    [KeyboardKey.arrowLeft]: d_2 < 0,
+    [KeyboardKey.arrowRight]: d_2 + position[0].length > BOARD_WIDTH_CNT,
     [KeyboardKey.spaceBar]: true,
   }[key]);
 
@@ -176,12 +299,22 @@ export const isTouchingBoundary = (
  * @param board
  * @returns
  */
-export const getValidateInfoNextFrame = (
+export const getNextFrameInfo = (
   key: KeyboardKey,
   location: Location,
   position: number[][],
   board: Space[][]
-): boolean[] => [
-  isTouchingBoundary(key, location, position),
-  isTouchingBlock(key, location, position, board),
-];
+): [boolean, boolean, Location] => {
+  const nextLocation: Location = getNextLocation(
+    key,
+    location,
+    position,
+    board
+  );
+
+  return [
+    isTouchingBoundary(key, nextLocation, position),
+    isTouchingBlock(key, nextLocation, position, board),
+    nextLocation,
+  ];
+};
