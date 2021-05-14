@@ -246,6 +246,7 @@ export const overlapSomePosition = (
   board: Space[][]
 ): boolean => {
   const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, position);
+
   return _.some(range_d_1, (d1) =>
     _.some(range_d_2, (d2) => isBlockSpace(board[d1][d2]))
   );
@@ -266,27 +267,24 @@ export const isTouchingBlock = (
   board: Space[][]
 ): boolean => {
   const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, position);
+
   const judgeMap = {
-    [KeyboardKey.arrowUp as KeyboardKey]: overlapSomePosition,
     [KeyboardKey.arrowDown as KeyboardKey]: isBottomOfPosition,
     [KeyboardKey.arrowLeft as KeyboardKey]: isLeftOfPosition,
     [KeyboardKey.arrowRight as KeyboardKey]: isRightOfPosition,
-    // TODO: 아래고쳐야함
     [KeyboardKey.spaceBar as KeyboardKey]: isBottomOfPosition,
   };
 
-  return _.some(range_d_1, (d1, i) =>
-    _.some(
-      range_d_2,
-      (d2, j) =>
-        judgeMap[key]({ d_1: i, d_2: j }, position, board) &&
-        isBlockSpace(
-          key === KeyboardKey.arrowDown
-            ? _.get(board, [d1 + 1, d2])
-            : _.get(board, [d1, d2])
+  return key === KeyboardKey.arrowUp
+    ? overlapSomePosition({ d_1, d_2 }, position, board)
+    : _.some(range_d_1, (d1, i) =>
+        _.some(
+          range_d_2,
+          (d2, j) =>
+            judgeMap[key]({ d_1: i, d_2: j }, position) &&
+            isBlockSpace(_.get(board, [d1, d2]))
         )
-    )
-  );
+      );
 };
 
 /**

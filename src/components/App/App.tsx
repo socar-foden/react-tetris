@@ -75,7 +75,7 @@ const App: React.FC = () => {
         if (action[0] === KeyboardKey.arrowDown) {
           dispatch({
             type: set_board,
-            payload: { location: nextLocation, block },
+            payload: { location: location, block },
           });
 
           const nextBlock: Block = getRandomBlock();
