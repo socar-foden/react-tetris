@@ -30,7 +30,9 @@ const startLocation: Location = { d_1: 0, d_2: 7 };
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { board }: GameState = useSelector((state: RootState) => state.game);
+  const { board, nextQueue }: GameState = useSelector(
+    (state: RootState) => state.game
+  );
   const [frame] = useState<number>(0);
   const [block, setBlock] = useState<Block>(getRandomBlock());
   const [action, setAction] = useState<[KeyboardKey]>([KeyboardKey.arrowDown]);
@@ -83,7 +85,7 @@ const App: React.FC = () => {
             payload: { location, block },
           });
 
-          const nextBlock: Block = getRandomBlock();
+          const nextBlock: Block = nextQueue[0];
           setBlock(nextBlock);
           setTempBoard(
             getBoard(startLocation, nextBlock, getBoard(location, block, board))
