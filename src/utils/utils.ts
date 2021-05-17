@@ -64,7 +64,7 @@ export const getBoard = (
   block: Block,
   board: Space[][]
 ): Space[][] => {
-  const cloned = _.cloneDeep(board);
+  let cloned = _.cloneDeep(board);
   const { _position } = block;
   const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, _position);
   const shadowLocation: Location = getEnableBottomLocation(
@@ -81,6 +81,13 @@ export const getBoard = (
       }
     })
   );
+
+  _.forEach(board, (row: Space[], i) => {
+    if (_.every(row, (space: Space) => space._block)) {
+      cloned = [...cloned.slice(0, i), ...cloned.slice(i + 1)];
+      cloned.unshift(_.times(BOARD_WIDTH_CNT, () => new Space()));
+    }
+  });
 
   return cloned;
 };
