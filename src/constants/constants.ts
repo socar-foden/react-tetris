@@ -25,3 +25,5 @@ export interface Location {
   d_1: number;
   d_2: number;
 }
+
+export const CELL_BORDER_COLOR = "#6e7c7c";

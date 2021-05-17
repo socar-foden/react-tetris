@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { Block } from "../models/blocks";
 import { Space } from "../models/spaces";
-import { getEmptyBoard, getBoard } from "../utils/utils";
+import { getEmptyBoard, getBoard, getRandomBlock } from "../utils/utils";
 
 export interface GameState {
   board: Space[][];
@@ -11,7 +11,7 @@ export interface GameState {
 
 const initialState: GameState = {
   board: getEmptyBoard(),
-  nextQueue: [],
+  nextQueue: [getRandomBlock(), getRandomBlock()],
 };
 
 const gameSlice = createSlice({
@@ -21,9 +21,12 @@ const gameSlice = createSlice({
     set_board: (state: GameState, { payload: { location, block } }) => {
       state.board = getBoard(location, block, state.board);
     },
+    nextTime_nextQueue: (state: GameState) => {
+      state.nextQueue = [state.nextQueue[1], getRandomBlock()];
+    },
   },
 });
 
-export const { set_board } = gameSlice.actions;
+export const { set_board, nextTime_nextQueue } = gameSlice.actions;
 
 export default gameSlice;

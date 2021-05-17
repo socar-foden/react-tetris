@@ -19,6 +19,7 @@ import {
   getRotatedBlock,
 } from "../../utils/utils";
 import useRAF from "../../hooks/useRAF";
+import Next from "../Next/Next";
 import { Block } from "../../models/blocks";
 import { GameState, set_board } from "../../stores/gameSlice";
 import Panel from "../Panel/Panel";
@@ -78,7 +79,7 @@ const App: React.FC = () => {
           setTempBoard(getBoard(location, block, board));
 
           dispatch({
-            type: set_board,
+            type: set_board.type,
             payload: { location, block },
           });
 
@@ -98,7 +99,14 @@ const App: React.FC = () => {
 
   return (
     <S.Main>
-      <Panel board={tempBoard} />
+      <S.Layout>
+        <S.Left>
+          <Panel board={tempBoard} />
+        </S.Left>
+        <S.Right>
+          <Next />
+        </S.Right>
+      </S.Layout>
     </S.Main>
   );
 };

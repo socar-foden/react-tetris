@@ -14,7 +14,6 @@ const S = {
     border-collapse: collapse;
   `,
   Row: styled.div`
-    display: flex;
     display: table-row;
   `,
 };

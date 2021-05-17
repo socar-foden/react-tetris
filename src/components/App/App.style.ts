@@ -9,6 +9,18 @@ const S = {
     align-items: center;
     background-color: #f3f4ed;
   `,
+  Layout: styled.div`
+    display: flex;
+  `,
+  Left: styled.div`
+    margin: 10px;
+  `,
+  Right: styled.div`
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  `,
 };
 
 export default S;

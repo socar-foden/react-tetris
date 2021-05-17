@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import _ from "lodash";
 
-import { CELL_WIDTH_PX } from "../../constants/constants";
+import { CELL_BORDER_COLOR, CELL_WIDTH_PX } from "../../constants/constants";
 
 interface S_CellProps {
-  color: string;
+  color?: string;
 }
 
 const S = {
   Cell: styled.div<S_CellProps>`
     width: ${CELL_WIDTH_PX}px;
     height: ${CELL_WIDTH_PX}px;
-    border: 1px solid #6e7c7c;
+    border: 1px solid ${CELL_BORDER_COLOR};
     background-color: ${(props) => _.get(props, "color") || ""};
     display: table-cell;
     box-sizing: border-box;
