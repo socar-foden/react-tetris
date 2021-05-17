@@ -13,6 +13,7 @@ import {
   Block_L,
   Block_O,
   Block_S,
+  Block_Shadow,
   Block_T,
   Block_Z,
 } from "../models/blocks";
@@ -66,10 +67,16 @@ export const getBoard = (
   const cloned = _.cloneDeep(board);
   const { _position } = block;
   const [range_d_1, range_d_2] = getRangeInfo({ d_1, d_2 }, _position);
+  const shadowLocation: Location = getEnableBottomLocation(
+    { d_1, d_2 },
+    block._position,
+    board
+  );
 
   _.forEach(range_d_1, (d1, i) =>
     _.forEach(range_d_2, (d2, j) => {
       if (_position[i][j] === 1) {
+        cloned[shadowLocation.d_1 + i][d2] = new Space(new Block_Shadow(block));
         cloned[d1][d2] = new Space(block);
       }
     })

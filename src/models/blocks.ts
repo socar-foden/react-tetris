@@ -28,7 +28,7 @@ export class Block_I extends Block {
 
     this._type = BlockType.I;
     this._position = [[1], [1], [1], [1]];
-    this._color = "#02475e";
+    this._color = "rgb(2, 71, 94)";
   }
 }
 
@@ -41,7 +41,7 @@ export class Block_O extends Block {
       [1, 1],
       [1, 1],
     ];
-    this._color = "#687980";
+    this._color = "rgb(104, 121, 128)";
   }
 }
 
@@ -54,7 +54,7 @@ export class Block_Z extends Block {
       [1, 1, 0],
       [0, 1, 1],
     ];
-    this._color = "#f3bda1";
+    this._color = "rgb(243, 189, 161)";
   }
 }
 
@@ -67,7 +67,7 @@ export class Block_S extends Block {
       [0, 1, 1],
       [1, 1, 0],
     ];
-    this._color = "#f55c47";
+    this._color = "rgb(245, 91, 71)";
   }
 }
 
@@ -81,7 +81,7 @@ export class Block_J extends Block {
       [0, 1],
       [1, 1],
     ];
-    this._color = "#9fe6a0";
+    this._color = "rgb(159, 230, 160)";
   }
 }
 
@@ -95,7 +95,7 @@ export class Block_L extends Block {
       [1, 0],
       [1, 1],
     ];
-    this._color = "#564a4a";
+    this._color = "rgb(86, 74, 74)";
   }
 }
 
@@ -108,6 +108,16 @@ export class Block_T extends Block {
       [1, 1, 1],
       [0, 1, 0],
     ];
-    this._color = "#511281";
+    this._color = "rgb(81, 18, 129)";
+  }
+}
+
+export class Block_Shadow extends Block {
+  constructor(block: Block) {
+    super();
+
+    this._type = block.type;
+    this._position = block._position;
+    this._color = `${block.color.split(')')[0]}, 0.4)`;
   }
 }

@@ -15,7 +15,7 @@ const S = {
     border-radius: 5px;
   `,
   RowWrapper: styled.div`
-    margin: 10px 0 10px 0;
+    margin: 15px 0 15px 0;
     display: table;
     border-collapse: collapse;
   `,
