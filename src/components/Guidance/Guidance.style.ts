@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import { CELL_BORDER_COLOR } from "../../constants/constants";
 interface S_IconWrapperProps {
+  active: boolean;
   width?: string;
 }
 
@@ -20,7 +21,8 @@ const S = {
   IconWrapper: styled.div<S_IconWrapperProps>`
     border: 1px solid ${CELL_BORDER_COLOR};
     border-radius: 5px;
-    background-color: white;
+    background-color: ${(props) =>
+      _.get(props, "active") ? "lightgrey" : "white"};
     display: flex;
     justify-content: center;
     align-items: center;
