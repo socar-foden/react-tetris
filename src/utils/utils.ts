@@ -53,7 +53,7 @@ export const getRandomBlock = (): Block => {
 const isBlockSpace = (space: Space): boolean => !!space && !!space._block;
 
 /**
- * ** 그려줄 게임영역을 반환
+ * ** 그려줄 게임영역 정보를 반환
  * @param location
  * @param block
  * @param board
@@ -90,6 +90,23 @@ export const getBoard = (
   });
 
   return cloned;
+};
+
+/**
+ * 제거될 줄의 수를 반환
+ * @param board
+ * @returns
+ */
+export const getRemovedCnt = (board: Space[][]): number => {
+  let cnt = 0;
+
+  _.forEach(board, (row: Space[]) => {
+    if (_.every(row, (space: Space) => space._block)) {
+      cnt++;
+    }
+  });
+
+  return cnt;
 };
 
 /**

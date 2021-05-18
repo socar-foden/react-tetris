@@ -4,6 +4,7 @@ import { CELL_BORDER_COLOR } from "../../constants/constants";
 import Cell_S from "../Cell/Cell.style";
 
 const S = {
+  Wrapper: styled.div``,
   Next: styled.div`
     width: 80px;
     height: 200px;

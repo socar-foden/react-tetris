@@ -54,7 +54,7 @@ export class Block_Z extends Block {
       [1, 1, 0],
       [0, 1, 1],
     ];
-    this._color = "rgb(243, 189, 161)";
+    this._color = "rgb(249, 177, 8)";
   }
 }
 
