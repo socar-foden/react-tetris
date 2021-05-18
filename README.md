@@ -1,6 +1,6 @@
 # react-tetris
 
-## URL
+### # URL
 
 https://zxczoxc125.github.io/react-tetris/
 
@@ -10,7 +10,9 @@ https://zxczoxc125.github.io/react-tetris/
 - requestAnimationFrame
 - custom hook
 - 이벤트 타이밍 제어
-- v.1 개선 후 구현완료
-  - v.1
-    - https://zxczoxc125.github.io/tetris/
-    - https://github.com/zxczoxc125/tetris
+
+### # 참고
+
+- v.1
+  - https://zxczoxc125.github.io/tetris/
+  - https://github.com/zxczoxc125/tetris
