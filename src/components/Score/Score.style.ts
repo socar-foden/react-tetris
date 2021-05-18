@@ -12,7 +12,7 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: 25px;
     font-family: monospace;
   `,
   Label: styled.h3`
