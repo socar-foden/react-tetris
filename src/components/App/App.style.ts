@@ -11,6 +11,10 @@ const S = {
   `,
   Layout: styled.div`
     display: flex;
+    flex-direction: column;
+  `,
+  Row: styled.div`
+    display: flex;
   `,
   Left: styled.div`
     margin: 10px;

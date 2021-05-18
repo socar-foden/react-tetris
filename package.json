@@ -19,6 +19,7 @@
     "url": "https://github.com/zxczoxc125/react-tetris/issues"
   },
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/lodash": "^4.14.169",
     "@types/react": "^17.0.5",
