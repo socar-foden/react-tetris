@@ -22,6 +22,8 @@ const App: React.FC = () => {
         <S.Row>
           <Guidance />
         </S.Row>
+
+        <S.Label>Tetris</S.Label>
       </S.Layout>
     </S.Main>
   );
