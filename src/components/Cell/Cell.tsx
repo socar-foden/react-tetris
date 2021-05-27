@@ -19,7 +19,9 @@ const areEqual = (
   prevProps: React.PropsWithChildren<CellProps>,
   nextProps: React.PropsWithChildren<CellProps>
 ) => {
-  return prevProps.space._block?.color === nextProps.space._block?.color;
+  const { _id: prevId } = prevProps.space;
+  const { _id: nextId } = nextProps.space;
+  return prevId === nextId;
 };
 
 export default React.memo(Cell, areEqual);
