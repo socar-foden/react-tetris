@@ -15,4 +15,11 @@ const Cell: React.FC<CellProps> = ({ space }) => {
   );
 };
 
-export default Cell;
+const areEqual = (
+  prevProps: React.PropsWithChildren<CellProps>,
+  nextProps: React.PropsWithChildren<CellProps>
+) => {
+  return prevProps.space._block?.color === nextProps.space._block?.color;
+};
+
+export default React.memo(Cell, areEqual);
